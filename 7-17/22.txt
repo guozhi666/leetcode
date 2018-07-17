@@ -1,0 +1,25 @@
+问题：https://leetcode-cn.com/problems/generate-parentheses/description/
+参考文献：https://blog.csdn.net/Scarlett_Guan/article/details/79925151
+
+
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string>re{ "" };
+        int  level=0;
+        while (level++!=2*n){
+            vector<string> temp;
+            for (auto x:re){
+                int l = 0, r = 0;
+                for (auto y : x){
+                    if (y == '(') ++l;
+                    if (y == ')') ++r;
+                }
+                if (l<n) temp.push_back(x + '(');
+                if (r<l) temp.push_back(x + ')');
+            }
+            re = temp;
+        }
+        return re;
+    }
+};
