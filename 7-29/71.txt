@@ -1,0 +1,50 @@
+/**
+*给定一个文档 (Unix-style) 的完全路径，请进行路径简化。
+
+*例如，
+*path = "/home/", => "/home"
+*path = "/a/./b/../../c/", => "/c"
+
+*边界情况:
+
+*你是否考虑了 路径 = "/../" 的情况？
+*在这种情况下，你需返回 "/" 。
+*此外，路径中也可能包含多个斜杠 '/' ，如 *"/home//foo/" 。
+*在这种情况下，你可忽略多余的斜杠，返回 *"/home/foo" 。
+
+*/
+
+
+
+class Solution {
+public:
+    string simplifyPath(string path) {
+        int start = 0;
+        int end = 0;
+        string result = "";
+        stack<string> stack;
+        if (path == "") return "";
+        stack.push("/");
+        while (start < path.length()) {
+            while (start < path.length() && path[start] == '/') 
+                start++; //start-1为最后一个'/'字符
+            end = start; 
+            while (end < path.length() && path[end] != '/')
+                end++;  // end-1 为最后一个非'/'字符 
+            string each = path.substr(start, end - start);
+            if (each == "..") {
+                if (stack.top() != "/")
+                    stack.pop();
+            } else if (each != "." && each != ""){
+                stack.push(each);
+            }
+            start = end;
+        }
+        if (stack.size() == 1) return stack.top(); //return only the root, for some corner case.
+        while (stack.size() > 1) {
+            result = "/" + stack.top() + result;
+            stack.pop();
+        }
+        return result;
+    }
+};
