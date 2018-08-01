@@ -1,0 +1,48 @@
+/*
+
+
+给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+
+示例:
+
+输入: n = 4, k = 2
+输出:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+
+*/
+
+class Solution {
+public:
+   void findCombine(int index, vector<int>& tmp, const int& n, const int& k, vector<vector<int>>& res){
+
+       if(tmp.size() == k)//组成一组了，插入到vector
+        {
+            res.push_back(tmp);
+            return;
+        }
+        //最主要的代码
+        for(int i = index; i  <= n; i++)
+        {
+            tmp.push_back(i);
+            findCombine(i+1, tmp, n,k, res);
+            tmp.pop_back();
+        }
+        return;
+    }
+   vector<vector<int>> combine(int n, int k) 
+    {
+        vector<vector<int>> res;
+        if(n < k || n < 1 || k < 1)
+            return res;
+        vector<int> tmp;
+        findCombine(1, tmp, n, k, res);
+        return res;
+    }
+};
