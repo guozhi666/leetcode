@@ -54,6 +54,25 @@ class lineList{
     }
     currentNode.next = null;
   }
+
+  /**
+   * 检查环路链表
+   * 借助快慢连个指针
+   */
+  checkCricle() {
+    let fast = this.head.next;
+    let slow = this.head;
+    while(fast !== null && fast.next !== null) {
+      fast = fats.next.next;
+      slow = slow.next;
+      if(fast === slow) {
+        console.log(true);
+        return true
+      }
+    }
+    console.log(false);
+     return false;
+  }
 }
 
 const List = new lineList();
