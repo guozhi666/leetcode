@@ -73,7 +73,76 @@ class SearchTree {
       this,root = node;
       return;
     }
-    this.getPrev(num, true)
+    return this.getPrev(num, true)
+  }
+
+  remove(num) {
+    let point = this.root;
+    let prent = null;
+    let tree = this;
+
+    let res = null;
+    while(true) {
+      if(point.left) {
+        if(num < point.left.val || num < point.val) {
+          prent = point;
+          point = point.left;
+          continue;
+        }
+      }
+
+      if(point.right) {
+        if(num >= point.right.val || num >= point.val) {
+          if(num === point.val) {
+            delMethod(point, prent);
+            if(prent === null) {
+              point = this.root;
+            } else {
+              prent = prent;
+              point = prent.right;
+            }
+            res = true;
+            continue;
+          }
+          prent = point;
+          point = point.right;
+          continue;
+        }
+      }
+
+      if(point.val === num) {
+        res = true;
+        delMethod(point, prent)
+      }
+      break;
+    }
+    return res;
+
+    function delMethod(delNode, prent) {
+      let p = delNode;
+      let pp = prent;
+      if(p.left !== null && p.right !== null) {
+        let minP = p.right;
+        let minPP = p;
+        while(minP.left !== null) {
+          minPP = minP;
+          minP = minP.left;
+        }
+          
+        p.val = minP.val;
+        p = minP;
+        pp = minPP;
+      }
+
+      let child;
+      if(p.left !== null) child = p.left;
+      else if(p.right !== null) child = p.right;
+      else child = null;
+
+      if(pp === null) tree.root = child;
+      else if(pp.left === p) pp.left = child;
+      else pp.right = child;
+    }
   }
 
   print() {
@@ -126,7 +195,7 @@ class SearchTree {
 
 function baseTest() {
   const searchTree = new SearchTree();
-  console.log('step:1');
+  console.log('step:1-----------------------');
   searchTree.insert(40);
   searchTree.insert(11);
   searchTree.insert(2);
@@ -135,8 +204,36 @@ function baseTest() {
   searchTree.insert(12);
   searchTree.insert(5);
   searchTree.insert(13);
+  searchTree.insert(30);
 
+  searchTree.insert(4);
+  searchTree.insert(1);
+  searchTree.insert(2);
+  searchTree.insert(5);
+
+  // // searchTree.print();
+  // console.log('find', searchTree.find(5));
+  // console.log('find-proto', searchTree.find);
+}
+
+function delTest() {
+  const searchTree = new SearchTree();
+  console.log('step:2-----------------------');
+  searchTree.insert(40);
+  searchTree.insert(11);
+  searchTree.insert(2);
+  searchTree.insert(30);
+  searchTree.insert(46);
+  searchTree.insert(12);
+  searchTree.insert(5);
+  searchTree.insert(13);
+  searchTree.insert(30);
+
+  searchTree.print();
+  searchTree.remove(30)
+  console.log('----------------------------------------');
   searchTree.print();
 }
 
-baseTest();
+// baseTest();
+// delTest();
