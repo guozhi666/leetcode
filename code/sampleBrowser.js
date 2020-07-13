@@ -1,10 +1,12 @@
 /**
  * 使用前后栈实现浏览器的前进后退
+ * 
+ * time: 2020/07/08
  */
 
 const stack = require('./stackByLineList');
 
-class SampleBrowser{
+class SampleBrowser {
   constructor() {
     this.normalStack = new stack.createdStrck();
     this.backStack = new stack.createdStrck();
@@ -19,7 +21,7 @@ class SampleBrowser{
   back() {
     //  后退时，从前进栈中取出最顶部，然后放在回退栈内
     const val = this.normalStack.pop();
-    if(val !== -1) {
+    if (val !== -1) {
       this.backStack.push(val);
       this.displayAllStack();
     } else {
@@ -30,7 +32,7 @@ class SampleBrowser{
   frount() {
     //  前进时，从后退栈内取出最顶部放在前进栈内
     const val = this.backStack.pop();
-    if(val !== -1) {
+    if (val !== -1) {
       this.normalStack.push(val);
       this.displayAllStack();
     } else {
